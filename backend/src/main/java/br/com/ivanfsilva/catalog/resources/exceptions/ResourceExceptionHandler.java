@@ -2,7 +2,6 @@ package br.com.ivanfsilva.catalog.resources.exceptions;
 
 import java.time.Instant;
 
-import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.HttpStatus;
