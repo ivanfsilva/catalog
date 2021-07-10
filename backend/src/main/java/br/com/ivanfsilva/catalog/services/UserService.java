@@ -1,10 +1,6 @@
 package br.com.ivanfsilva.catalog.services;
 
-import br.com.ivanfsilva.catalog.dto.CategoryDTO;
-import br.com.ivanfsilva.catalog.dto.RoleDTO;
-import br.com.ivanfsilva.catalog.dto.UserDTO;
-import br.com.ivanfsilva.catalog.dto.UserInsertDTO;
-import br.com.ivanfsilva.catalog.entities.Category;
+import br.com.ivanfsilva.catalog.dto.*;
 import br.com.ivanfsilva.catalog.entities.Role;
 import br.com.ivanfsilva.catalog.entities.User;
 import br.com.ivanfsilva.catalog.repositories.RoleRepository;
@@ -12,11 +8,16 @@ import br.com.ivanfsilva.catalog.repositories.UserRepository;
 import br.com.ivanfsilva.catalog.services.exceptions.DatabaseException;
 import br.com.ivanfsilva.catalog.services.exceptions.ResourceNotFoundException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,7 +26,8 @@ import javax.persistence.EntityNotFoundException;
 import java.util.Optional;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
+	private static Logger logger = LoggerFactory.getLogger(UserService.class);
 
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
@@ -59,7 +61,7 @@ public class UserService {
 	}
 
 	@Transactional
-	public UserDTO update(Long id, UserDTO dto) {
+	public UserDTO update(Long id, UserUpdateDTO dto) {
 		try {
 			User entity = repository.getOne(id);
 			copyDtoToEntity(dto, entity);
@@ -90,5 +92,16 @@ public class UserService {
 			Role role  = roleRepository.getOne(roleDTO.getId());
 			entity.getRoles().add(role);
 		}
+	}
+
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		User user = repository.findByEmail(username);
+		if(user == null) {
+			logger.error("Usuário não encontrado: " + username);
+			throw new UsernameNotFoundException("Email não encontrado");
+		}
+		logger.info("Usuário encontrado: " + username);
+		return user;
 	}
 }

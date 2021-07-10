@@ -31,7 +31,7 @@ public class ResourceExceptionHandler {
 		return ResponseEntity.status(status).body(error);
 	}
 	
-	@ExceptionHandler(DatabaseException.class)
+	@ExceptionHandler({DatabaseException.class})
 	public ResponseEntity<StandardError> database(DatabaseException e, HttpServletRequest request) {
 		HttpStatus status = HttpStatus.BAD_REQUEST;
 		
@@ -45,7 +45,7 @@ public class ResourceExceptionHandler {
 		return ResponseEntity.status(status).body(error);
 	}
 
-	@ExceptionHandler(MethodArgumentNotValidException.class)
+	@ExceptionHandler({MethodArgumentNotValidException.class})
 	public ResponseEntity<ValidationError> validation(MethodArgumentNotValidException e, HttpServletRequest request) {
 		HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY;
 
