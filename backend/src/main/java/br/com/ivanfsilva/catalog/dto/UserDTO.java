@@ -2,6 +2,7 @@ package br.com.ivanfsilva.catalog.dto;
 
 import br.com.ivanfsilva.catalog.entities.User;
 
+import javax.persistence.Column;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
@@ -19,6 +20,7 @@ public class UserDTO implements Serializable {
     private String lastName;
 
     @Email(message = "Favor entrar um email válido")
+    @Column(unique = true)
     private String email;
 
     Set<RoleDTO> roles = new HashSet<>();

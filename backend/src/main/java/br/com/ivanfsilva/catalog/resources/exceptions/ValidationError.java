@@ -1,6 +1,5 @@
 package br.com.ivanfsilva.catalog.resources.exceptions;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
