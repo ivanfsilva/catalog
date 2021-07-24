@@ -1,5 +1,7 @@
 package br.com.ivanfsilva.catalog.services;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
@@ -31,10 +33,14 @@ public class ProductService {
 	private CategoryRepository categoryRepository;
 	
 	@Transactional(readOnly = true)
-	public Page<ProductDTO> findAllPaged(Pageable pageable) {
-		Page<Product> list = repository.findAll(pageable);
-		
-		return list.map(c -> new ProductDTO(c));
+	public Page<ProductDTO> findAllPaged(Long categoryId, String name, Pageable pageable) {
+		// getOne() instancia o obj em memória sem ir ao banco de dados
+
+		List<Category> categories = (categoryId == 0) ? null :
+				Arrays.asList(categoryRepository.getOne(categoryId));
+		Page<Product> list = repository.find(categories, name, pageable);
+		return list.map(x -> new ProductDTO(x));
+
 //		return list.stream().map(c -> new ProductDTO(c)).collect(Collectors.toList());
 		
 //		List<ProductDTO> listDTO = new ArrayList<>();
