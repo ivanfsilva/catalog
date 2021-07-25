@@ -40,7 +40,7 @@ public class ProductService {
 				Arrays.asList(categoryRepository.getOne(categoryId));
 		Page<Product> page = repository.find(categories, name, pageable);
 		repository.findProductsWithCategories(page.getContent());
-		return page.map(x -> new ProductDTO(x));
+		return page.map(c -> new ProductDTO(c, c.getCategories()));
 
 //		return list.stream().map(c -> new ProductDTO(c)).collect(Collectors.toList());
 		
