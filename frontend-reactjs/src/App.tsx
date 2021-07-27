@@ -1,14 +1,11 @@
 import 'bootstrap/dist/css/bootstrap.css'
-import './App.css';
+import Home from 'pages/Home';
 import './assets/styles/custom.scss';
-import Navbar from "./components/Navbar";
+import './App.css';
 
 function App() {
     return (
-        <>
-            <Navbar />
-            <h1>Olá Catalog</h1>
-        </>
+        <Home />
     );
 }
 
