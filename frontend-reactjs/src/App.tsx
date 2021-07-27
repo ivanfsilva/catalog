@@ -1,11 +1,13 @@
 import 'bootstrap/dist/css/bootstrap.css'
-import Home from 'pages/Home';
 import './assets/styles/custom.scss';
 import './App.css';
 
+import Catalog from "./pages/Catalog";
+
 function App() {
     return (
-        <Home />
+        // <Home />
+        <Catalog/>
     );
 }
 
