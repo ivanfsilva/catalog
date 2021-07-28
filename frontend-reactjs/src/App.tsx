@@ -2,12 +2,11 @@ import 'bootstrap/dist/css/bootstrap.css'
 import './assets/styles/custom.scss';
 import './App.css';
 
-import Catalog from "./pages/Catalog";
+import Routes from "./Routes";
 
 function App() {
     return (
-        // <Home />
-        <Catalog/>
+        <Routes/>
     );
 }
 
